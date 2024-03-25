@@ -1,0 +1,7 @@
+AccountNumber: fcce8615-c351-4390-a6ea-46340b9f9e21 ,TransactionType: CREATE ,Amount: 50000.0
+AccountNumber: 72e9831e-3fc2-4d15-855f-cc136d841876 ,TransactionType: CREATE ,Amount: 50000.0
+AccountNumber: fcce8615-c351-4390-a6ea-46340b9f9e21 ,TransactionType: TRANSFER_FROM ,Amount: 32.0
+AccountNumber: 72e9831e-3fc2-4d15-855f-cc136d841876 ,TransactionType: TRANSFER_TO ,Amount: 32.0
+AccountNumber: fcce8615-c351-4390-a6ea-46340b9f9e21 ,TransactionType: WITHDRAWAL ,Amount: 32.0
+AccountNumber: 72e9831e-3fc2-4d15-855f-cc136d841876 ,TransactionType: DEPOSIT ,Amount: 32.0
+AccountNumber: fcce8615-c351-4390-a6ea-46340b9f9e21 ,TransactionType: DEPOSIT ,Amount: 100.0
