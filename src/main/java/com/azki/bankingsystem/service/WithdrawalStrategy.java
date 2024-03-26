@@ -1,6 +1,5 @@
-package com.azki.bankingsystem.component;
+package com.azki.bankingsystem.service;
 
-import com.azki.bankingsystem.service.BankingManagementService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

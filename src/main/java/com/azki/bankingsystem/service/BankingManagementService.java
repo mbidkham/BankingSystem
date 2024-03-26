@@ -1,6 +1,5 @@
 package com.azki.bankingsystem.service;
 
-import com.azki.bankingsystem.component.AccountLockManager;
 import com.azki.bankingsystem.dto.AccountCreationDto;
 import com.azki.bankingsystem.model.BankAccount;
 import com.azki.bankingsystem.repository.BankAccountRepository;
@@ -8,7 +7,9 @@ import com.azki.bankingsystem.utils.TransactionLogger;
 import com.azki.bankingsystem.utils.TransactionObserver;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
@@ -23,7 +24,7 @@ public class BankingManagementService {
   private final BankAccountRepository bankAccountRepository;
   private final List<TransactionObserver> observers = new ArrayList<>();
   private final ExecutorService executorService = Executors.newCachedThreadPool();
-
+  public static final Map<Long, Lock> accountLocks = new ConcurrentHashMap<>();
 
   @Value(value = "${account.minimum.init.balance}")
   private Double initBalance;
@@ -64,13 +65,17 @@ public class BankingManagementService {
     return createdBankAccount.getId();
   }
 
+
+  //TODO:
+  // Improve @Transactional methods to extract another method from this,
+  // so the session won't be open until each thread completed
   @Transactional
   public String deposit(Long accountId, double amount) {
     BankAccount account = bankAccountRepository.findById(accountId)
         .orElseThrow(() -> new IllegalArgumentException("Account not found"));
     executorService.submit(() -> {
       // Choose lock based on each user account id
-      Lock accountLock = AccountLockManager.accountLocks.computeIfAbsent(accountId,
+      Lock accountLock = accountLocks.computeIfAbsent(accountId,
           k -> new ReentrantLock());
       try {
         accountLock.lock();
@@ -79,7 +84,7 @@ public class BankingManagementService {
         notifyObservers(account.getAccountNumber(), "DEPOSIT", amount);
       } finally {
         accountLock.unlock();
-        AccountLockManager.accountLocks.remove(accountId);
+        accountLocks.remove(accountId);
       }
     });
     return account.getAccountNumber();
@@ -90,7 +95,7 @@ public class BankingManagementService {
     BankAccount account = bankAccountRepository.findById(accountId)
         .orElseThrow(() -> new IllegalArgumentException("Account not found!"));
     executorService.submit(() -> {
-          Lock accountLock = AccountLockManager.accountLocks.computeIfAbsent(accountId,
+          Lock accountLock = accountLocks.computeIfAbsent(accountId,
               k -> new ReentrantLock());
           try {
             accountLock.lock();
@@ -103,7 +108,7 @@ public class BankingManagementService {
             }
           } finally {
             accountLock.unlock();
-            AccountLockManager.accountLocks.remove(accountId);
+            accountLocks.remove(accountId);
           }
         }
     );

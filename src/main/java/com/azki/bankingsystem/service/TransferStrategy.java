@@ -1,4 +1,4 @@
-package com.azki.bankingsystem.component;
+package com.azki.bankingsystem.service;
 
 
 public interface TransferStrategy {

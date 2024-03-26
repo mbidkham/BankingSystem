@@ -1,6 +1,4 @@
-package com.azki.bankingsystem.component;
-
-import com.azki.bankingsystem.service.BankingManagementService;
+package com.azki.bankingsystem.service;
 
 import lombok.AllArgsConstructor;
 

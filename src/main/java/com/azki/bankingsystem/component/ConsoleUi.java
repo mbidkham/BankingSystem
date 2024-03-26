@@ -2,6 +2,11 @@ package com.azki.bankingsystem.component;
 
 import com.azki.bankingsystem.dto.AccountCreationDto;
 import com.azki.bankingsystem.service.BankingManagementService;
+import com.azki.bankingsystem.service.DepositStrategy;
+import com.azki.bankingsystem.service.ImmediateTransferStrategy;
+import com.azki.bankingsystem.service.TransactionStrategy;
+import com.azki.bankingsystem.service.TransferStrategy;
+import com.azki.bankingsystem.service.WithdrawalStrategy;
 import java.util.Scanner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
