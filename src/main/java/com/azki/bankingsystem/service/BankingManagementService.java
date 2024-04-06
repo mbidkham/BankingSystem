@@ -24,7 +24,7 @@ public class BankingManagementService {
   private final BankAccountRepository bankAccountRepository;
   private final List<TransactionObserver> observers = new ArrayList<>();
   private final ExecutorService executorService = Executors.newCachedThreadPool();
-  public static final Map<Long, Lock> accountLocks = new ConcurrentHashMap<>();
+  private static final Map<Long, Lock> accountLocks = new ConcurrentHashMap<>();
 
   @Value(value = "${account.minimum.init.balance}")
   private Double initBalance;
